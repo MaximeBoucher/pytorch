@@ -11,28 +11,28 @@ from caffe2.python.modifier_context import (
 
 
 @context.define_context(allow_default=True)
-class RegularizerContext(ModifierContext):
+class NormalizerContext(ModifierContext):
     """
-    provide context to allow param_info to have different regularizers
+    provide context to allow param_info to have different normalizers
     """
 
-    def has_regularizer(self, name):
+    def has_normalizer(self, name):
         return self._has_modifier(name)
 
-    def get_regularizer(self, name):
-        assert self.has_regularizer(name), (
-            "{} regularizer is not provided!".format(name))
+    def get_normalizer(self, name):
+        assert self.has_normalizer(name), (
+            "{} normalizer is not provided!".format(name))
         return self._get_modifier(name)
 
 
-class UseRegularizer(UseModifierBase):
+class UseNormalizer(UseModifierBase):
     '''
     context class to allow setting the current context.
     Example useage with layer:
-        regularizers = {'reg1': reg1, 'reg2': reg2}
-        with UseRegularizer(regularizers):
-            reg = RegularizerContext.current().get_regularizer('reg1')
-            layer(reg=reg)
+        normalizers = {'norm1': norm1, 'norm2': norm2}
+        with UseNormalizer(normalizers):
+            norm = NormalizerContext.current().get_normalizer('norm1')
+            layer(norm=norm)
     '''
     def _context_class(self):
-        return RegularizerContext
+        return NormalizerContext
